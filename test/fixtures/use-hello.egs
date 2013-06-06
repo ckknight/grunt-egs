@@ -1,0 +1,1 @@
+<% partial "hello", name: name or "world" %>
