@@ -67,12 +67,12 @@ Sets the global export when run in a browser rather than in node.js or with an A
 
 
 #### tokens
-Type: `string` or `{ open: string, close: string, open-write: string, close-write: string, open-comment: string, close-comment: string }`
-Default: `"<%" or { open: "<%", close: "%>", open-write: "<%=", close-write: "%>", open-comment: "<%--", close-comment: "--%>" }`
+Type: `string` or `{ open: string, close: string, openWrite: string, closeWrite: string, openComment: string, closeComment: string, openLiteral: string, closeLiteral: string }`
+Default: `"<%" or { open: "<%", close: "%>", openWrite: "<%=", closeWrite: "%>", openComment: "<%--", closeComment: "--%>", openLiteral: "<%@", closeLiteral: "@%>" }`
 
 Sets the embed tokens to parse for template compilation.
 
-If `"{{"` is provided, that works as `{ open: "", open-write: "{{", close-write: "}}", open-comment: "{#", close-comment: "#}" }`.
+If `"{{"` is provided, that works as `{ open: "", openWrite: "{{", closeWrite: "}}", openComment: "{#", closeComment: "#}", openLiteral: "{@", closeLiteral: "@}" }`.
 ### Usage Examples
 
 ```js
@@ -98,10 +98,11 @@ gorilla: {
 
 ## Release History
 
+ * 2013-06-06   v0.1.1   Add the "openLiteral" and "closeLiteral" to the "tokens" option.
  * 2013-06-05   v0.1.0   Initial release
 
 ---
 
 Task submitted by [Cameron Kenneth Knight](http://github.com/ckknight)
 
-*This file was generated on Wed Jun 05 2013 21:23:12.*
+*This file was generated on Thu Jun 06 2013 14:18:55.*

@@ -38,9 +38,9 @@ Sets the global export when run in a browser rather than in node.js or with an A
 
 
 ## tokens
-Type: `string` or `{ open: string, close: string, open-write: string, close-write: string, open-comment: string, close-comment: string }`
-Default: `"<%" or { open: "<%", close: "%>", open-write: "<%=", close-write: "%>", open-comment: "<%--", close-comment: "--%>" }`
+Type: `string` or `{ open: string, close: string, openWrite: string, closeWrite: string, openComment: string, closeComment: string, openLiteral: string, closeLiteral: string }`
+Default: `"<%" or { open: "<%", close: "%>", openWrite: "<%=", closeWrite: "%>", openComment: "<%--", closeComment: "--%>", openLiteral: "<%@", closeLiteral: "@%>" }`
 
 Sets the embed tokens to parse for template compilation.
 
-If `"{{"` is provided, that works as `{ open: "{%", close: "%}", open-write: "{{", close-write: "}}", open-comment: "{#", close-comment: "#}" }`.
+If `"{{"` is provided, that works as `{ open: "{%", close: "%}", openWrite: "{{", closeWrite: "}}", openComment: "{#", closeComment: "#}", openLiteral: "{@", closeLiteral: "@}" }`.

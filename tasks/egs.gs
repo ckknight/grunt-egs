@@ -66,6 +66,8 @@ module.exports := #(grunt)
             compile-options.close-write := "}}"
             compile-options.open-comment := "{#"
             compile-options.close-comment := "#}"
+            compile-options.open-literal := "{@"
+            compile-options.close-literal := "@}"
           case '<%'
             void
           default
@@ -77,6 +79,8 @@ module.exports := #(grunt)
           compile-options.close-write := options.tokens.close-write
           compile-options.open-comment := options.tokens.open-comment
           compile-options.close-comment := options.tokens.close-comment
+          compile-options.open-literal := options.tokens.open-literal
+          compile-options.close-literal := options.tokens.close-literal
       
         grunt.log.write "Compiling $(path.basename source-directory) ..."
         let start-time = Date.now()

@@ -333,6 +333,8 @@
                   compileOptions.closeWrite = "}}";
                   compileOptions.openComment = "{#";
                   compileOptions.closeComment = "#}";
+                  compileOptions.openLiteral = "{@";
+                  compileOptions.closeLiteral = "@}";
                   break;
                 case "<%":
                   break;
@@ -345,6 +347,8 @@
                 compileOptions.closeWrite = options.tokens.closeWrite;
                 compileOptions.openComment = options.tokens.openComment;
                 compileOptions.closeComment = options.tokens.closeComment;
+                compileOptions.openLiteral = options.tokens.openLiteral;
+                compileOptions.closeLiteral = options.tokens.closeLiteral;
               }
               grunt.log.write("Compiling " + __strnum(path.basename(sourceDirectory)) + " ...");
               startTime = Date.now();
