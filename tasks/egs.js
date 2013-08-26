@@ -36,6 +36,7 @@
             promise = _ref.promise;
             fulfill = _ref.fulfill;
             reject = _ref.reject;
+            _ref = null;
             function step() {
               var f, result;
               try {
@@ -74,19 +75,19 @@
             this.then(
               function (ret) {
                 state = 1;
-                return result = ret;
+                result = ret;
               },
               function (err) {
                 state = 2;
-                return result = err;
+                result = err;
               },
               true
             );
             switch (state) {
-            case 0: throw Error("Promise did not execute synchronously");
+            case 0: throw new Error("Promise did not execute synchronously");
             case 1: return result;
             case 2: throw result;
-            default: throw Error("Unknown state");
+            default: throw new Error("Unknown state");
             }
           }
         },
@@ -114,19 +115,19 @@
   }());
   __generatorToPromise = function (generator, allowSync) {
     if (typeof generator !== "object" || generator === null) {
-      throw TypeError("Expected generator to be an Object, got " + __typeof(generator));
+      throw new TypeError("Expected generator to be an Object, got " + __typeof(generator));
     } else {
       if (typeof generator.send !== "function") {
-        throw TypeError("Expected generator.send to be a Function, got " + __typeof(generator.send));
+        throw new TypeError("Expected generator.send to be a Function, got " + __typeof(generator.send));
       }
       if (typeof generator["throw"] !== "function") {
-        throw TypeError("Expected generator.throw to be a Function, got " + __typeof(generator["throw"]));
+        throw new TypeError("Expected generator.throw to be a Function, got " + __typeof(generator["throw"]));
       }
     }
     if (allowSync == null) {
       allowSync = false;
     } else if (typeof allowSync !== "boolean") {
-      throw TypeError("Expected allowSync to be a Boolean, got " + __typeof(allowSync));
+      throw new TypeError("Expected allowSync to be a Boolean, got " + __typeof(allowSync));
     }
     function continuer(verb, arg) {
       var item;
@@ -150,13 +151,11 @@
     return callback(void 0);
   };
   __isArray = typeof Array.isArray === "function" ? Array.isArray
-    : (function () {
-      var _toString;
-      _toString = Object.prototype.toString;
+    : (function (_toString) {
       return function (x) {
         return _toString.call(x) === "[object Array]";
       };
-    }());
+    }(Object.prototype.toString));
   __slice = Array.prototype.slice;
   __strnum = function (strnum) {
     var type;
@@ -166,12 +165,12 @@
     } else if (type === "number") {
       return String(strnum);
     } else {
-      throw TypeError("Expected a string or number, got " + __typeof(strnum));
+      throw new TypeError("Expected a string or number, got " + __typeof(strnum));
     }
   };
   __toArray = function (x) {
     if (x == null) {
-      throw TypeError("Expected an object, got " + __typeof(x));
+      throw new TypeError("Expected an object, got " + __typeof(x));
     } else if (__isArray(x)) {
       return x;
     } else if (typeof x === "string") {
@@ -179,25 +178,29 @@
     } else if (typeof x.length === "number") {
       return __slice.call(x);
     } else {
-      throw TypeError("Expected an object with a length property, got " + __typeof(x));
+      throw new TypeError("Expected an object with a length property, got " + __typeof(x));
     }
   };
   __toPromise = function (func, context, args) {
-    var d;
+    var _ref, fulfill, promise, reject;
     if (typeof func !== "function") {
-      throw TypeError("Expected func to be a Function, got " + __typeof(func));
+      throw new TypeError("Expected func to be a Function, got " + __typeof(func));
     }
-    d = __defer();
+    _ref = __defer();
+    promise = _ref.promise;
+    reject = _ref.reject;
+    fulfill = _ref.fulfill;
+    _ref = null;
     func.apply(context, __toArray(args).concat([
       function (err, value) {
         if (err != null) {
-          d.reject(err);
+          reject(err);
         } else {
-          d.fulfill(value);
+          fulfill(value);
         }
       }
     ]));
-    return d.promise;
+    return promise;
   };
   __typeof = (function () {
     var _toString;
@@ -214,13 +217,11 @@
   }());
   setImmediate = typeof GLOBAL.setImmediate === "function" ? GLOBAL.setImmediate
     : typeof process !== "undefined" && typeof process.nextTick === "function"
-    ? (function () {
-      var nextTick;
-      nextTick = process.nextTick;
+    ? (function (nextTick) {
       return function (func) {
         var args;
         if (typeof func !== "function") {
-          throw TypeError("Expected func to be a Function, got " + __typeof(func));
+          throw new TypeError("Expected func to be a Function, got " + __typeof(func));
         }
         args = __slice.call(arguments, 1);
         if (args.length) {
@@ -231,17 +232,17 @@
           return nextTick(func);
         }
       };
-    }())
+    }(process.nextTick))
     : function (func) {
       var args;
       if (typeof func !== "function") {
-        throw TypeError("Expected func to be a Function, got " + __typeof(func));
+        throw new TypeError("Expected func to be a Function, got " + __typeof(func));
       }
       args = __slice.call(arguments, 1);
       if (args.length) {
         return setTimeout(
           function () {
-            func.apply(void 0, __toArray(args));
+            func.apply(void 0, args);
           },
           0
         );
@@ -269,7 +270,8 @@
         linefeed: grunt.util.linefeed,
         encoding: grunt.file.defaultEncoding,
         coverage: false,
-        "export": "EGSTemplates"
+        "export": "EGSTemplates",
+        includeRuntime: false
       });
       grunt.verbose.writeflags(options, "Options");
       verbose = grunt.option("verbose") || options.verbose;
@@ -322,7 +324,8 @@
                 bare: options.bare,
                 coverage: options.coverage,
                 sourceMap: options.sourceMap ? { file: __strnum(dest) + ".map", sourceRoot: options.sourceRoot || "" } : null,
-                globalExport: options["export"]
+                globalExport: options["export"],
+                includeEgsRuntime: options.includeRuntime
               };
               if (typeof options.tokens === "string") {
                 switch (options.tokens) {
@@ -358,7 +361,7 @@
                 value: egs.compilePackage(sourceDirectory, dest, compileOptions)
               };
             case 7:
-              grunt.log.writeln(" " + __strnum(((Date.now() - startTime) / 1000).toFixed(3)) + " s");
+              grunt.log.writeln(" " + ((Date.now() - startTime) / 1000).toFixed(3) + " s");
               ++_state;
             case 8:
               ++_i;
@@ -366,7 +369,7 @@
               break;
             case 9:
               return { done: true, value: void 0 };
-            default: throw Error("Unknown state: " + _state);
+            default: throw new Error("Unknown state: " + _state);
             }
           }
         }

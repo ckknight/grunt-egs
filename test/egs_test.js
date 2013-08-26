@@ -91,5 +91,17 @@ exports.gorilla = {
     test.equal(expected, actual, "Should compile EGS Package with encoding UTF-16-le");
     
     test.done();
+  },
+  includeRuntime: function(test) {
+    'use strict';
+
+    test.expect(1);
+
+    assertFileEquality(test,
+      'tmp/includeRuntime.js',
+      'test/expected/includeRuntime.js',
+      'Should compile EGS Package to JavaScript with included runtime');
+    
+    test.done();
   }
 };

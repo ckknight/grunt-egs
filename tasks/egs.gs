@@ -19,6 +19,7 @@ module.exports := #(grunt)
       encoding: grunt.file.default-encoding
       -coverage
       export: "EGSTemplates"
+      include-runtime: false
     }
     
     grunt.verbose.writeflags options, "Options"
@@ -56,6 +57,7 @@ module.exports := #(grunt)
           else
             null
           global-export: options.export
+          include-egs-runtime: options.include-runtime
         }
         if is-string! options.tokens
           switch options.tokens

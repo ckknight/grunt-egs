@@ -47,43 +47,47 @@ if (!myCoverage["test/fixtures/use-hello.egs"]) {
   if (typeof module !== "undefined" && module.exports) {
     module.exports = factory(require("egs"));
   } else if (typeof define === "function" && define.amd) {
-    define(["egs"], factory);
+    define(["egs-runtime"], factory);
   } else {
-    this.EGSTemplates = factory(this.EGS);
+    this.EGSTemplates = factory(this.EGSRuntime);
   }
-}.call(this, function (EGS) {
+}.call(this, function (EGSRuntime) {
   var templates;
-  if (!EGS) {
-    throw Error("Expected EGS to be available");
+  if (!EGSRuntime) {
+    throw Error("Expected EGSRuntime to be available");
   }
-  templates = EGS.Package();
+  templates = EGSRuntime.Package("0.3.1");
   (function () {
     "use strict";
-    var __first, __generator, __import, __owns, __slice;
+    var __first, __generator, __import, __isArray, __owns, __slice, __toArray,
+        __typeof;
     __first = function (x) {
       return x;
     };
     __generator = function (func) {
       return function () {
-        var _this, data;
-        _this = this;
-        data = [this, __slice.call(arguments)];
+        var args, self;
+        self = this;
+        args = arguments;
         return {
           iterator: function () {
             return this;
           },
           send: function () {
-            var tmp;
-            return {
-              done: true,
-              value: data ? (tmp = data, data = null, func.apply(tmp[0], tmp[1])) : void 0
-            };
+            var value;
+            if (args) {
+              value = func.apply(self, __toArray(args));
+              self = null;
+              args = null;
+            }
+            return { done: true, value: value };
           },
           next: function () {
             return this.send();
           },
           "throw": function (err) {
-            data = null;
+            self = null;
+            args = null;
             throw err;
           }
         };
@@ -98,12 +102,44 @@ if (!myCoverage["test/fixtures/use-hello.egs"]) {
       }
       return dest;
     };
+    __isArray = typeof Array.isArray === "function" ? Array.isArray
+      : (function (_toString) {
+        return function (x) {
+          return _toString.call(x) === "[object Array]";
+        };
+      }(Object.prototype.toString));
     __owns = Object.prototype.hasOwnProperty;
     __slice = Array.prototype.slice;
-    templates.set("hello.egs", (function () {
-      return __generator(function (write, context, helpers) {
+    __toArray = function (x) {
+      if (x == null) {
+        throw new TypeError("Expected an object, got " + __typeof(x));
+      } else if (__isArray(x)) {
+        return x;
+      } else if (typeof x === "string") {
+        return x.split("");
+      } else if (typeof x.length === "number") {
+        return __slice.call(x);
+      } else {
+        throw new TypeError("Expected an object with a length property, got " + __typeof(x));
+      }
+    };
+    __typeof = (function () {
+      var _toString;
+      _toString = Object.prototype.toString;
+      return function (o) {
+        if (o === void 0) {
+          return "Undefined";
+        } else if (o === null) {
+          return "Null";
+        } else {
+          return o.constructor && o.constructor.name || _toString.call(o).slice(8, -1);
+        }
+      };
+    }());
+    templates.setSimple("hello.egs", (function () {
+      return function (write, context, helpers) {
         return write + "Hello, " + (++myCoverage["test/fixtures/hello.egs"][1], helpers.escape(context.name));
-      });
+      };
     }.call(this)));
     templates.set("use-hello.egs", (function () {
       var _e, _ref, _send, _state, _step, _throw;
@@ -123,7 +159,7 @@ if (!myCoverage["test/fixtures/use-hello.egs"]) {
                 done: false,
                 value: helpers.partial(
                   "hello",
-                  __first(write, write = ""),
+                  __first(write, (write = "", void 0)),
                   (_ref = __import({}, context), _ref.name = context.name || "world", _ref)
                 )
               };
@@ -133,7 +169,7 @@ if (!myCoverage["test/fixtures/use-hello.egs"]) {
               return { done: true, value: write };
             case 2:
               return { done: true, value: void 0 };
-            default: throw Error("Unknown state: " + _state);
+            default: throw new Error("Unknown state: " + _state);
             }
           }
         }
@@ -174,6 +210,4 @@ if (!myCoverage["test/fixtures/use-hello.egs"]) {
   return templates;
 }));
 
-/*
-//@ sourceMappingURL=coverageMaps.js.map
-*/
+//# sourceMappingURL=coverageMaps.js.map

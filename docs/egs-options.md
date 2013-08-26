@@ -44,3 +44,9 @@ Default: `"<%" or { open: "<%", close: "%>", openWrite: "<%=", closeWrite: "%>",
 Sets the embed tokens to parse for template compilation.
 
 If `"{{"` is provided, that works as `{ open: "{%", close: "%}", openWrite: "{{", closeWrite: "}}", openComment: "{#", closeComment: "#}", openLiteral: "{@", closeLiteral: "@}" }`.
+
+## includeRuntime
+Type: `boolean`
+Default: `false`
+
+Include the full egs-runtime.js file into the package. This will allow you to only ship a single file.

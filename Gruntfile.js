@@ -65,6 +65,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/utf16.js': ['test/fixtures']
         }
+      },
+      includeRuntime: {
+        options: {
+          includeRuntime: true
+        },
+        files: {
+          'tmp/includeRuntime.js': ['test/fixtures']
+        }
       }
     },
 

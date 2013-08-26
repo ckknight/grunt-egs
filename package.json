@@ -1,7 +1,7 @@
 {
   "name": "grunt-egs",
   "description": "Compile EGS packages to JavaScript.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/ckknight/grunt-egs",
   "author": {
     "name": "Cameron Kenneth Knight",
@@ -28,10 +28,10 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "egs": "~0.1.10"
+    "egs": "~0.3.1"
   },
   "devDependencies": {
-    "gorillascript": "~0.8.25",
+    "gorillascript": "~0.9.4",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-nodeunit": "~0.1.2",
